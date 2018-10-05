@@ -1,8 +1,9 @@
 import anyTest, { TestInterface } from "ava";
 import { mount, ReactWrapper } from "enzyme";
 import * as React from "react";
-import QueryAssist from "../src";
-import { mockAttributes, simulateExtra } from "./helpers";
+
+import { mockAttributes, simulateExtra } from "../tests/helpers";
+import QueryAssist from "./index";
 
 interface ICustomContext {
   wrapper: ReactWrapper<{}, {}, React.Component<{}, {}, any>>;
@@ -118,7 +119,7 @@ test("closes dropdown when there is no attribute match", (t) => {
 
 test("does not open when data attribute changes", (t) => {
   const attributes = [];
-  const wrapper = mount(data as QueryAssist= {attributes} / > );
+  const wrapper = mount(<QueryAssist data={attributes} />);
   t.false(wrapper.state("dropdownOpen"));
   wrapper.setProps({ data: mockAttributes });
   t.false(wrapper.state("dropdownOpen"));

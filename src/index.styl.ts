@@ -132,7 +132,7 @@ export const Token = styled(Inline)`
   position: relative;
   cursor: pointer;
   font-weight: 500;
-
+  color: #2384FF;
   ${tokenColor}
 
   ${"" /* &:after {
@@ -154,6 +154,6 @@ export const Token = styled(Inline)`
   } */}
 `;
 
-Token.defaultProps = {
-  tokenColor: "#2384FF",
-};
+// Token.defaultProps = {
+//   tokenColor: "#2384FF",
+// };

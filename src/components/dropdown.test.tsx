@@ -1,16 +1,17 @@
 import test from "ava";
 import { mount } from "enzyme";
-import React from "react";
-import sinon from "sinon";
-import Dropdown from "../src/components/dropdown";
-import { mockAttributes, simulateExtra } from "./helpers";
+import * as React from "react";
+import * as sinon from "sinon";
+
+import { mockAttributes, simulateExtra } from "../../tests/helpers";
+import Dropdown from "./dropdown";
 
 test.beforeEach((t) => {
   t.context.onSelect = sinon.spy();
   t.context.wrapper = mount(
-    attributes as Dropdown= {mockAttributes}
-      onSelect = {t.context.onSelect} / > ,
-  );
+    <Dropdown
+      attributes={mockAttributes}
+      onSelect={t.context.onSelect} />);
   simulateExtra(t.context.wrapper);
 });
 

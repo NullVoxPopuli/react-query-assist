@@ -24,9 +24,10 @@ interface IState {
   dropdownY: number | null;
 }
 
-export default class extends React.Component<IReactQueryAssistProps, IState> {
-
-  public static defaultProps = { // eslint-disable-line
+export default class ReactQueryAssist extends React.Component<IReactQueryAssistProps, IState> {
+  _input: any;
+  _marker: any;
+  public static defaultProps = {
     data: [],
     nameKey: "name",
     nameKeyIncludes: ["name"],
@@ -74,7 +75,7 @@ export default class extends React.Component<IReactQueryAssistProps, IState> {
     });
   }
 
-  public componentDidUpdate(prevProps, prevState) {
+  public componentDidUpdate(prevProps: IReactQueryAssistProps, prevState: IState) {
     const {
       value,
       attributes,
@@ -94,8 +95,8 @@ export default class extends React.Component<IReactQueryAssistProps, IState> {
     }
   }
 
-  public componentWillReceiveProps(nextProps) {
-    const newState = {};
+  public componentWillReceiveProps(nextProps: IReactQueryAssistProps) {
+    const newState: any = {};
 
     // default value can be empty string (to clear search)
     if (nextProps.defaultValue !== undefined) {
@@ -109,19 +110,19 @@ export default class extends React.Component<IReactQueryAssistProps, IState> {
     this.setState(newState);
   }
 
-  public onFocus(evt) {
+  public onFocus(evt: Event) {
     this.setState({
       focused: true,
     }, this.onAutosuggest);
   }
 
-  public onBlur(evt) {
+  public onBlur(evt: Event) {
     this.setState({
       focused: false,
     });
   }
 
-  public onKeyDown(evt) {
+  public onKeyDown(evt: KeyboardEvent) {
     if (evt.keyCode === 13) {
       this.handleEnterKey(evt);
     }
@@ -132,7 +133,7 @@ export default class extends React.Component<IReactQueryAssistProps, IState> {
     }
   }
 
-  public onChange(evt) {
+  public onChange(evt: React.ChangeEvent<HTMLInputElement>) {
     this.setState({
       value: evt.target.value,
     });
@@ -217,7 +218,7 @@ export default class extends React.Component<IReactQueryAssistProps, IState> {
       (atEndOfWord && !this.state.dropdownClosed));
   }
 
-  public onClose(forWord) {
+  public onClose(forWord?: boolean) {
     this.setState({
       dropdownOpen: false,
       // don't reopen if it was closed for current word
@@ -333,7 +334,7 @@ export default class extends React.Component<IReactQueryAssistProps, IState> {
     ];
   }
 
-  public render() {
+  render() {
     const {
       nameKey,
       className,
@@ -365,9 +366,7 @@ export default class extends React.Component<IReactQueryAssistProps, IState> {
         notify={this.onClose}>
         <Container
           className={className}>
-          <InputContainer
-            {...inputProps}
-            onClick={() => this._input.focus()}>
+          <InputContainer {...inputProps} onClick={() => this._input.focus()}>
             <Overlay
               collapsed={collapsed}>
               {overlayComponents}

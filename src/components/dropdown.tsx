@@ -20,11 +20,11 @@ interface IState {
   highlightedIdx: number;
   selectedIdx: number | null;
   prepended?: string;
-  operator: string;
-  negated: boolean;
+  operator?: string;
+  negated?: boolean;
 }
 
-export default class extends React.PureComponent<IDropdownProps, IState> {
+export default class Dropdown extends React.PureComponent<IDropdownProps, IState> {
   public static defaultProps = { // eslint-disable-line
     value: "",
     nameKey: "name",
@@ -34,29 +34,16 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     footerComponent: () => null,
   };
 
-  constructor(props: IDropdownProps) {
-    super(props);
-    this.onKeyDown = this.onKeyDown.bind(this);
-    this.handleEnterKey = this.handleEnterKey.bind(this);
-    this.handleEscKey = this.handleEscKey.bind(this);
-    this.handleArrowKeys = this.handleArrowKeys.bind(this);
-    this.adjustListScroll = this.adjustListScroll.bind(this);
-    this.getAttribute = this.getAttribute.bind(this);
-    this.getSuggestions = this.getSuggestions.bind(this);
-    this.getSuggestionAddons = this.getSuggestionAddons.bind(this);
-    this.filterSuggestions = this.filterSuggestions.bind(this);
-    this.acceptSuggestion = this.acceptSuggestion.bind(this);
-    this.getOperators = this.getOperators.bind(this);
-    this.setOperator = this.setOperator.bind(this);
-    this.state = {
-      suggestions: [],
-      highlightedIdx: 0,
-      selectedIdx: null,
-      prepended: "",
-      operator: "",
-      negated: false,
-    };
-  }
+  _list: any;
+
+  state = {
+    suggestions: [],
+    highlightedIdx: 0,
+    selectedIdx: null,
+    prepended: "",
+    operator: "",
+    negated: false,
+  };
 
   public componentDidMount() {
     const { value, keyboardHelpers } = this.props;
@@ -88,7 +75,7 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     }
   }
 
-  public onKeyDown(evt: KeyboardEvent) {
+  public onKeyDown = (evt: KeyboardEvent) => {
     switch (evt.keyCode) {
       case 9: // tab key
       case 13: // enter key
@@ -104,17 +91,17 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     }
   }
 
-  public handleEnterKey(evt: KeyboardEvent) {
+  public handleEnterKey = (evt: KeyboardEvent) => {
     evt.preventDefault();
     this.acceptSuggestion();
   }
 
-  public handleEscKey(evt: KeyboardEvent) {
+  public handleEscKey = (evt: KeyboardEvent) => {
     evt.preventDefault();
     this.props.onClose(true);
   }
 
-  public handleArrowKeys(evt: KeyboardEvent, keyCode: number) {
+  public handleArrowKeys = (evt: KeyboardEvent, keyCode: number) => {
     evt.preventDefault();
 
     const { highlightedIdx } = this.state;
@@ -136,7 +123,7 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     }, this.adjustListScroll);
   }
 
-  public adjustListScroll() {
+  public adjustListScroll = () => {
     const {
       offsetTop,
       clientHeight: selectorHeight,
@@ -158,13 +145,13 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     }
   }
 
-  public getAttribute(selectedIdx: number) {
+  public getAttribute = (selectedIdx: number) => {
     if (selectedIdx !== null && selectedIdx > -1) {
       return this.props.attributes[selectedIdx];
     }
   }
 
-  public getSuggestions(attribute) {
+  public getSuggestions = (attribute) => {
     const {
       nameKey,
       attributes,
@@ -175,7 +162,7 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
       : attributes.map((attr) => attr[nameKey]);
   }
 
-  public getSuggestionAddons(attribute, parsed) {
+  public getSuggestionAddons = (attribute, parsed) => {
     const addons = [];
 
     if (attribute) {
@@ -201,7 +188,7 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     return addons;
   }
 
-  public filterSuggestions(value) {
+  public filterSuggestions = (value) => {
     const {
       nameKey,
       attributes,
@@ -231,7 +218,7 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     });
   }
 
-  public acceptSuggestion() {
+  public acceptSuggestion = () => {
     const {
       nameKey,
       onSelect,
@@ -256,7 +243,7 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     onSelect(`${prepended}${newValue}`, appended);
   }
 
-  public getOperators() {
+  public getOperators = () => {
     const operators = [];
     const attribute = this.getAttribute(this.state.selectedIdx);
 
@@ -275,7 +262,7 @@ export default class extends React.PureComponent<IDropdownProps, IState> {
     return operators;
   }
 
-  public setOperator(newOperator) {
+  public setOperator = (newOperator) => {
     const {
       value,
     } = this.props;

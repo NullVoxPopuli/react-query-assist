@@ -23,7 +23,7 @@
   "types": "./dist/index.d.ts",
   "scripts": {
     "lint": "tslint {src,tests}/**/*",
-    "test": "tsc && ava",
+    "test": "ava",
     "start": "nwb serve-react-demo",
     "build": "tsc",
     "prepublishOnly": "tsc"
@@ -84,7 +84,8 @@
   "ava": {
     "compileEnhancements": false,
     "extensions": [
-      "ts"
+      "ts",
+      "tsx"
     ],
     "require": [
       "ts-node/register/transpile-only",
